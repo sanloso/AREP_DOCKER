@@ -18,13 +18,13 @@ public class App
     public static void main( String[] args )
     {
         port(getPort());
-//        conecctionMongoDB();
+        conecctionMongoDB();
         get("/logService", (req, res) -> inputDataPage(req, res));
         get("/consulta", (req, res) -> consulta(req, res));
     }
 
     private static void conecctionMongoDB() {
-        String connectionString = System.getProperty("mongodb://localhost:27017");
+        String connectionString = "mongodb://localhost:27017";
         try (MongoClient mongoClient = MongoClients.create(connectionString)) {
             List<Document> databases = mongoClient.listDatabases().into(new ArrayList<>());
             databases.forEach(db -> System.out.println(db.toJson()));
