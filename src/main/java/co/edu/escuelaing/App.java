@@ -2,11 +2,15 @@ package co.edu.escuelaing;
 
 import spark.Request;
 import spark.Response;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import org.bson.Document;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static spark.Spark.get;
 import static spark.Spark.port;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.sql.SparkSession;
 
 
 public class App 
@@ -14,19 +18,17 @@ public class App
     public static void main( String[] args )
     {
         port(getPort());
-//        SparkSession spark = SparkSession.builder()
-//                .master("local")
-//                .appName("MongoSparkConnectorIntro")
-//                .config("spark.mongodb.input.uri", "mongodb+srv://arep_user:Password@arep1.caty9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-//                .config("spark.mongodb.output.uri", "mongodb+srv://arep_user:Password@arep1.caty9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-//                .getOrCreate();
-//
-//        JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
-
+//        conecctionMongoDB();
         get("/logService", (req, res) -> inputDataPage(req, res));
         get("/consulta", (req, res) -> consulta(req, res));
+    }
 
-//        jsc.close();
+    private static void conecctionMongoDB() {
+        String connectionString = System.getProperty("mongodb://localhost:27017");
+        try (MongoClient mongoClient = MongoClients.create(connectionString)) {
+            List<Document> databases = mongoClient.listDatabases().into(new ArrayList<>());
+            databases.forEach(db -> System.out.println(db.toJson()));
+        }
     }
 
     private static int getPort() {

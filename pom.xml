@@ -69,9 +69,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.mongodb.spark</groupId>
-      <artifactId>mongo-spark-connector_2.12</artifactId>
-      <version>3.0.1</version>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongodb-driver-sync</artifactId>
+      <version>4.2.3</version>
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
@@ -85,7 +85,6 @@
     </dependency>
   </dependencies>
 
-  <!-- build configuration -->
   <build>
     <plugins>
       <plugin>
