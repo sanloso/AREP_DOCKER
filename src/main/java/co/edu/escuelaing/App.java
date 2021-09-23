@@ -1,5 +1,7 @@
 package co.edu.escuelaing;
 
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import spark.Request;
 import spark.Response;
 import com.mongodb.client.MongoClient;
@@ -7,6 +9,7 @@ import com.mongodb.client.MongoClients;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static spark.Spark.get;
@@ -56,6 +59,12 @@ public class App
     }
 
     private static String consulta(Request req, Response res) {
+        String connectionString = "mongodb://localhost:27017";
+        try (MongoClient mongoClient = MongoClients.create(connectionString)) {
+            MongoDatabase database = mongoClient.getDatabase("local");
+            MongoCollection<Document> collection = database.getCollection("collection");
+            collection.insertOne(new Document("texto", req.queryParams("cadena").toString()).append("fecha", new Date()));
+        }
         return req.queryParams("cadena");
 
     }
