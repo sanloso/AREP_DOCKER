@@ -58,14 +58,17 @@ public class App
         return pageContent;
     }
 
-    private static String consulta(Request req, Response res) {
+    private static List<Document> consulta(Request req, Response res) {
         String connectionString = "mongodb://localhost:27017";
+//        para acceder al mongoDB desde el docker seguir esta ruta:
+//        usr, bin, mongo
         try (MongoClient mongoClient = MongoClients.create(connectionString)) {
             MongoDatabase database = mongoClient.getDatabase("local");
             MongoCollection<Document> collection = database.getCollection("collection");
             collection.insertOne(new Document("texto", req.queryParams("cadena").toString()).append("fecha", new Date()));
+            List<Document> resultados = collection.find().limit(10).into(new ArrayList<>());
+            resultados.forEach(result -> System.out.println(result.toJson()));
+            return resultados;
         }
-        return req.queryParams("cadena");
-
     }
 }
