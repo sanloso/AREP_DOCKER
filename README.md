@@ -27,3 +27,11 @@ try (MongoClient mongoClient = MongoClients.create(connectionString)) {
 ```
 
 Este proyecto se encuentra tanto en docker como en AWS EC2
+
+## Docker Hub
+![](images/docker.png)
+
+## AWS EC2
+![](images/instancia-aws.png)
+![](images/aws.png)
+
